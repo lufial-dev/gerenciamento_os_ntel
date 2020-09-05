@@ -10,11 +10,12 @@ abstract class MyColors {
   static const Color DANGER = Color.fromRGBO(255, 0, 0, 1);
   static const Color WARNING = Color.fromRGBO(200, 216, 29, 1);
   static const Color SUCCESS = Color.fromRGBO(45, 203, 119, 1);
+  static const Color WRITE = Color.fromRGBO(250, 250, 250, 1);
 }
 
 abstract class MyFontSize {
-  static const double TITLE = 15;
-  static const double SUBTITLE = 13;
+  static const double TITLE = 13;
+  static const double SUBTITLE = 11;
 }
 
 abstract class MyIcons {

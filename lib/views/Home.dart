@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gerenciamento_os_ntel/util/Util.dart';
+import 'package:gerenciamento_os_ntel/views/Details.dart';
 import 'package:gerenciamento_os_ntel/widgets/ServiceCard.dart';
 
 class Home extends StatefulWidget {
@@ -18,29 +19,28 @@ class _MyHome extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: MyColors.PRIMARY,
+        bottom: PreferredSize(
+          child: Container(
+            color: MyColors.SECONDARY,
+            height: 4.0,
+          ),
+          preferredSize: Size.fromHeight(4.0),
+        ),
         actions: <Widget>[Icon(Icons.search)],
         title: Text("Ntel Telecom"),
       ),
       drawer: Drawer(),
-      body: SingleChildScrollView(
-        physics: ScrollPhysics(),
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 10,
-              color: MyColors.SECONDARY,
-              margin: EdgeInsets.only(bottom: 20),
-            ),
-            ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                return ServiceCard();
-              },
-            ),
-          ],
-        ),
+      body: ListView.builder(
+        itemCount: 5,
+        itemBuilder: (context, index) {
+          return InkWell(
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Details()));
+            },
+            child: ServiceCard(),
+          );
+        },
       ),
     );
   }
