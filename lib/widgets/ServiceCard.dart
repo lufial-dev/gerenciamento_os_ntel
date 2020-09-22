@@ -1,8 +1,14 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gerenciamento_os_ntel/models/ServiceModel.dart';
 import 'package:gerenciamento_os_ntel/util/Util.dart';
 
 class ServiceCard extends StatelessWidget {
+  ServiceModel service;
+
+  ServiceCard(this.service);
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -29,7 +35,7 @@ class ServiceCard extends StatelessWidget {
                         Container(
                           margin: EdgeInsets.only(bottom: 5),
                           child: Text(
-                            "Luiz Filipe Alves da Silva",
+                            this.service.name,
                             style: TextStyle(
                               color: MyColors.TITLE,
                               fontSize: MyFontSize.TITLE,
@@ -38,7 +44,7 @@ class ServiceCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "Rua José Alencar de Carvalho Pires, 19, Centro",
+                          this.service.address,
                           style: TextStyle(
                             color: MyColors.TEXT,
                             fontSize: MyFontSize.SUBTITLE,
@@ -47,7 +53,7 @@ class ServiceCard extends StatelessWidget {
                         Container(
                           margin: EdgeInsets.only(bottom: 3),
                           child: Text(
-                            "Do lado da Assistencia Social",
+                            this.service.observation,
                             style: TextStyle(
                               color: MyColors.TEXT,
                               fontSize: MyFontSize.SUBTITLE,
@@ -68,7 +74,7 @@ class ServiceCard extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   child: Text(
-                    "Fibra Torada",
+                    this.service.service,
                     style: TextStyle(
                       color: MyColors.SECONDARY,
                       fontSize: MyFontSize.SUBTITLE,
@@ -77,7 +83,7 @@ class ServiceCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "20/12/2020 10:00",
+                  formatDate(this.service.date, [dd, '/', mm, '/', yyyy]),
                   style: TextStyle(
                     color: MyColors.TEXT,
                     fontSize: MyFontSize.SUBTITLE,
