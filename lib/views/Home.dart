@@ -23,13 +23,32 @@ class _MyHome extends State<Home> {
     loadData();
   }
 
-  loadData() async {
-    List services = await ServiceModel.all();
-    print(services.length);
-    setState(() {
-      services.forEach((service) => childrens.add(ServiceCard(service)));
-    });
+  Future<void> loadData() async {
+    childrens = [];
+    try {
+      List services = await ServiceModel.all();
+      setState(() {
+        services.forEach((service) => childrens.add(ServiceCard(service)));
+      });
+    }catch (e){
+       setState(() {
+        childrens.add(
+          Container(
+            margin: EdgeInsets.only(top: 30),
+            child: Center(
+              child: Text("NENHUM SERVIÇO",
+                style: TextStyle(
+                  fontSize: MyFontSize.FULL_TITLE,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        );
+       });
+    }
   }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -47,17 +66,21 @@ class _MyHome extends State<Home> {
         title: Text("Ntel Telecom"),
       ),
       drawer: Drawer(),
-      body: ListView.builder(
-        itemCount: childrens.length,
-        itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Details()));
-            },
-            child: childrens[index],
-          );
-        },
+      body: RefreshIndicator(
+        onRefresh: loadData,
+        child: ListView.builder(
+          itemCount: childrens.length,
+          itemBuilder: (context, index) {
+            return InkWell(
+              onTap: () {
+                ServiceCard serviceCard = childrens[index];
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Details(serviceCard.service)));
+              },
+              child: childrens[index],
+            );
+          },
+        ),
       ),
     );
   }

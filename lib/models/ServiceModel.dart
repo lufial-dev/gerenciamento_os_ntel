@@ -32,12 +32,12 @@ class ServiceModel {
         phone: json['phone'],
         technician: json['technician'],
         service: json['service'],
-        situation: json['siituation'],
+        situation: json['situation'],
         date: DateTime.parse(json['date']),
       );
 
   static Future<List<ServiceModel>> all() async {
-    final response = await Services.fetchArray("app.php");
+    final response = await Services.fetchArray("app.php?technician=Avelino");
     List<ServiceModel> allServices = [];
     List result = jsonDecode(response.body);
 

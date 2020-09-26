@@ -1,9 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gerenciamento_os_ntel/models/ServiceModel.dart';
 import 'package:gerenciamento_os_ntel/util/Util.dart';
 import 'package:gerenciamento_os_ntel/widgets/TitleLine.dart';
 
 class Details extends StatefulWidget {
+
+  final ServiceModel serviceModel;
+
+  Details(this.serviceModel);
+  
   @override
   _DetailsState createState() => _DetailsState();
 }
@@ -41,7 +47,7 @@ class _DetailsState extends State<Details> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text("Luiz Filipe Alves da Silva"),
+                  Text(widget.serviceModel.name),
                 ],
               ),
             ),
@@ -56,25 +62,11 @@ class _DetailsState extends State<Details> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text("Rua José Alencar de Carvalho Pires"),
+                  Text(widget.serviceModel.address),
                 ],
               ),
             ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    "Número: ",
-                    style: TextStyle(
-                      color: MyColors.TITLE,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text("19"),
-                ],
-              ),
-            ),
+            
             Container(
               margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Row(
@@ -86,7 +78,7 @@ class _DetailsState extends State<Details> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text("(87) 9 9611-6866"),
+                  Text(widget.serviceModel.phone),
                 ],
               ),
             ),
@@ -105,7 +97,7 @@ class _DetailsState extends State<Details> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text("(87) 9 9611-6866"),
+                  Text(widget.serviceModel.service),
                 ],
               ),
             ),
@@ -117,7 +109,7 @@ class _DetailsState extends State<Details> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "Manutenção: ",
+                    "Observação: ",
                     style: TextStyle(
                       color: MyColors.TITLE,
                       fontWeight: FontWeight.bold,
@@ -125,8 +117,23 @@ class _DetailsState extends State<Details> {
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 30, top: 5),
-                    child: Text("Cliente informa que o caminhão torou a fibra"),
+                    child: Text(widget.serviceModel.observation),
                   ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    "Situação: ",
+                    style: TextStyle(
+                      color: MyColors.TITLE,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(widget.serviceModel.situation),
                 ],
               ),
             ),

@@ -5,12 +5,13 @@ import 'package:gerenciamento_os_ntel/models/ServiceModel.dart';
 import 'package:gerenciamento_os_ntel/util/Util.dart';
 
 class ServiceCard extends StatelessWidget {
-  ServiceModel service;
+  final ServiceModel service;
 
   ServiceCard(this.service);
 
   @override
   Widget build(BuildContext context) {
+    print(service.situation);
     return Card(
       elevation: 5,
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -50,22 +51,12 @@ class ServiceCard extends StatelessWidget {
                             fontSize: MyFontSize.SUBTITLE,
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 3),
-                          child: Text(
-                            this.service.observation,
-                            style: TextStyle(
-                              color: MyColors.TEXT,
-                              fontSize: MyFontSize.SUBTITLE,
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                   ),
                   Container(
                     alignment: Alignment.topLeft,
-                    child: MyIcons.SUCCESS,
+                    child: MyIcons.getIcon[service.situation],
                   ),
                 ],
               ),
