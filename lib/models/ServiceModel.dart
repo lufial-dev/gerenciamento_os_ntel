@@ -43,7 +43,7 @@ class ServiceModel {
 
     result
         .forEach((item) async => allServices.add(ServiceModel.fromJson(item)));
-
+ 
     return allServices;
   }
 }

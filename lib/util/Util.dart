@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../models/UserModel.dart';
+
 abstract class MyColors {
   static const Color PRIMARY = Color.fromRGBO(11, 92, 127, 1);
   static const Color SECONDARY = Color.fromRGBO(229, 84, 31, 1);
@@ -15,10 +17,15 @@ abstract class MyColors {
   static const Color WRITE = Color.fromRGBO(250, 250, 250, 1);
 }
 
+abstract class Auth{
+  static UserModel user;
+}
+
 abstract class MyFontSize {
   static const double TITLE = 13;
   static const double FULL_TITLE = 25;
   static const double SUBTITLE = 11;
+  static const double FOOTER = 13;
 }
 
 abstract class MyIcons {
