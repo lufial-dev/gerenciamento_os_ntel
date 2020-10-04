@@ -40,10 +40,12 @@ class _DetailsState extends State<Details> {
               margin: EdgeInsets.symmetric(vertical: 20),
               child: TitleLine("Dados do Cliente"),
             ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: Row(
-                children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Text(
                     "Nome: ",
                     style: TextStyle(
@@ -51,14 +53,11 @@ class _DetailsState extends State<Details> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text(widget.serviceModel.name),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: Row(
-                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                    child: Text(widget.serviceModel.name),
+                  ),
+                  
                   Text(
                     "Endereço: ",
                     style: TextStyle(
@@ -66,15 +65,11 @@ class _DetailsState extends State<Details> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text(widget.serviceModel.address),
-                ],
-              ),
-            ),
-            
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: Row(
-                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(left: 30, top: 5,  bottom: 5),
+                    child: Text(widget.serviceModel.address),
+                  ),
+                  
                   Text(
                     "Telefone: ",
                     style: TextStyle(
@@ -82,18 +77,26 @@ class _DetailsState extends State<Details> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text(widget.serviceModel.phone),
+                  Container(
+                    margin: EdgeInsets.only(left: 30, top: 5,  bottom: 5),
+                    child: Text(widget.serviceModel.phone),
+                  ),
                 ],
               ),
             ),
+            
+               
             Container(
               margin: EdgeInsets.symmetric(vertical: 20),
               child: TitleLine("Dados da Os"),
             ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: Row(
-                children: <Widget>[
+        
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Text(
                     "Tipo: ",
                     style: TextStyle(
@@ -101,17 +104,11 @@ class _DetailsState extends State<Details> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text(widget.serviceModel.service),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                    child: Text(widget.serviceModel.service),
+                  ),
+                      
                   Text(
                     "Observação: ",
                     style: TextStyle(
@@ -120,16 +117,11 @@ class _DetailsState extends State<Details> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: 30, top: 5),
+                    margin: EdgeInsets.only(left: 30, top: 5, bottom: 5),
                     child: Text(widget.serviceModel.observation),
                   ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: Row(
-                children: <Widget>[
+                    
+              
                   Text(
                     "Situação: ",
                     style: TextStyle(
@@ -137,7 +129,10 @@ class _DetailsState extends State<Details> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text(widget.serviceModel.situation),
+                  Container(
+                    margin: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                    child: Text(widget.serviceModel.situation),
+                  ),
                 ],
               ),
             ),
@@ -148,7 +143,7 @@ class _DetailsState extends State<Details> {
   }
 
   Widget _getFAB() {
-    return SpeedDial(
+    return widget.serviceModel.situation != "CONCLUÍDO" ? SpeedDial(
       animatedIcon: AnimatedIcons.menu_close,
       animatedIconTheme: IconThemeData(size: 22),
       backgroundColor: MyColors.SECONDARY,
@@ -182,7 +177,7 @@ class _DetailsState extends State<Details> {
                 fontSize: 16.0),
             labelBackgroundColor: MyColors.PRIMARY)
       ],
-    );
+    ):null;
   }
 
 }
