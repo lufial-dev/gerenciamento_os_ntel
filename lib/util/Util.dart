@@ -62,12 +62,26 @@ abstract class MyIcons {
     size: _sizeIcon,
   );
 
+  static const _OK = Icon(
+    Icons.check_circle_outline,
+    color: MyColors.SUCCESS,
+    size: _sizeIcon,
+  );
+
+  static const _NO_CONTACT = Icon(
+    Icons.contacts,
+    color: MyColors.DANGER,
+    size: _sizeIcon,
+  );
+
   static Map<String, Icon> getIcon = {
     'CONCLUÍDO': _SUCCESS,
     'REAGENDADO': _WARNING,
     'CANCELADO': _DANGER,
     'NORMALIZOU': _NORMAL,
-    'EM ANDAMENTO': _RUNNING
+    'EM ANDAMENTO': _RUNNING,
+    'FEITO': _OK,
+    'SEM CONTATO' : _NO_CONTACT,
   }; 
 
 }

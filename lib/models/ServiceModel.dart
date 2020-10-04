@@ -5,7 +5,7 @@ import 'package:gerenciamento_os_ntel/services/services.dart';
 import '../util/Util.dart';
 
 class ServiceModel {
-  int id;
+  String id;
   String name;
   String address;
   String observation;
@@ -47,5 +47,9 @@ class ServiceModel {
         .forEach((item) async => allServices.add(ServiceModel.fromJson(item)));
  
     return allServices;
+  }
+
+  void updateSituation(String situation){
+    Services.fetchArray("appos.php?id=${this.id}&situation=$situation");
   }
 }

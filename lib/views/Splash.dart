@@ -2,13 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:gerenciamento_os_ntel/services/DataBaseHelper.dart';
 import 'package:gerenciamento_os_ntel/views/Login.dart';
-import 'package:splashscreen/splashscreen.dart';
 
 import '../models/UserModel.dart';
-import '../util/Util.dart';
-
 import '../util/Util.dart';
 import 'Home.dart';
 
@@ -54,7 +52,11 @@ Widget _introScreen() {
         Expanded(
           child:Container(
             height: 150,
-            color: MyColors.WRITE,
+            
+            decoration: BoxDecoration(
+              color: MyColors.WRITE,
+              borderRadius: BorderRadius.circular(30),
+            ),
             margin: EdgeInsets.only(left: 20, right: 20, top: 150),
             child: BackdropFilter(
               filter: new ImageFilter.blur(sigmaX: 30.0, sigmaY: 30.0),
@@ -73,4 +75,7 @@ Widget _introScreen() {
       ],
     ),
   );
+
+  
 }
+

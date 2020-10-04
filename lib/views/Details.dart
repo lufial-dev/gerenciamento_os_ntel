@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:gerenciamento_os_ntel/models/ServiceModel.dart';
 import 'package:gerenciamento_os_ntel/util/Util.dart';
 import 'package:gerenciamento_os_ntel/widgets/TitleLine.dart';
+
+import '../util/Util.dart';
 
 class Details extends StatefulWidget {
 
@@ -18,6 +21,7 @@ class _DetailsState extends State<Details> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: _getFAB(),
       appBar: AppBar(
         backgroundColor: MyColors.PRIMARY,
         bottom: PreferredSize(
@@ -142,4 +146,43 @@ class _DetailsState extends State<Details> {
       ),
     );
   }
+
+  Widget _getFAB() {
+    return SpeedDial(
+      animatedIcon: AnimatedIcons.menu_close,
+      animatedIconTheme: IconThemeData(size: 22),
+      backgroundColor: MyColors.SECONDARY,
+      visible: true,
+      curve: Curves.bounceIn,
+      children: [
+            
+            SpeedDialChild(
+            child: Icon(Icons.assignment_turned_in),
+            backgroundColor: MyColors.SECONDARY,
+            onTap: (){
+              widget.serviceModel.updateSituation("SEM CONTATO");
+            },
+            label: 'SEM CONTATO',
+            labelStyle: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+                fontSize: 16.0),
+            labelBackgroundColor: MyColors.SECONDARY),
+            
+            SpeedDialChild(
+            child: Icon(Icons.assignment_turned_in),
+            backgroundColor: MyColors.PRIMARY,
+            onTap:(){
+              widget.serviceModel.updateSituation("FEITO");
+            },
+            label: 'FEITO',
+            labelStyle: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+                fontSize: 16.0),
+            labelBackgroundColor: MyColors.PRIMARY)
+      ],
+    );
+  }
+
 }
