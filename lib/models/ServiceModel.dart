@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:gerenciamento_os_ntel/services/services.dart';
 
+import '../util/Util.dart';
+
 class ServiceModel {
   int id;
   String name;
@@ -37,7 +39,7 @@ class ServiceModel {
       );
 
   static Future<List<ServiceModel>> all() async {
-    final response = await Services.fetchArray("app.php?technician=Avelino");
+    final response = await Services.fetchArray("app.php?technician=${Auth.user.name}");
     List<ServiceModel> allServices = [];
     List result = jsonDecode(response.body);
 
