@@ -70,6 +70,7 @@ class _LoginState extends State<Login> {
                         Container(
                           margin: EdgeInsets.symmetric(vertical: height*0.02), 
                           child: TextFormField(
+                            obscureText: true,
                             validator: _validator,
                             onChanged: _savedPass,
                             decoration: InputDecoration(
@@ -149,7 +150,7 @@ class _LoginState extends State<Login> {
           DatabaseHelper databaseHelper = DatabaseHelper();
           databaseHelper.insertUser(user);
           Auth.user = user;
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
         }catch(e){
           _showSnack("Erro de acesso ao banco de dados, entre em contado com o desenvolvimento");
         }

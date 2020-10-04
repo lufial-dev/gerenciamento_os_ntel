@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:gerenciamento_os_ntel/services/DataBaseHelper.dart';
 import 'package:gerenciamento_os_ntel/views/Login.dart';
 
@@ -30,6 +29,7 @@ class _SplashState extends State<Splash> {
 
   _getUser() async {
     DatabaseHelper db = DatabaseHelper();
+    db.inicializeDatabase();
     List<Map<String, dynamic>> userMap = await db.getUserMap();
 
     Future.delayed(Duration(seconds: 5)).then((_){
@@ -39,8 +39,9 @@ class _SplashState extends State<Splash> {
       }else{
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
       }
+    }).catchError((e){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
     });
-    
   }
 }
 
