@@ -3,12 +3,11 @@ import '../services/Services.dart';
 import '../util/Util.dart';
 
 class UserModel{
+  int id;
   String name;
   String login;
-  String password;
-  
 
-  UserModel({this.name, this.login, this.password});
+  UserModel({this.name, this.login});
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
     name : json['name'],
@@ -24,11 +23,27 @@ class UserModel{
       
     user = UserModel.fromJson(result[0]);
     user.login = login;
-    user.password = password;
 
     Auth.user = user;
 
     return user;
 
   }
+
+  Map<String, dynamic> toMap() {
+    var map = Map<String, dynamic>();
+        if (id != null) {
+            map['id'] = id;
+        }
+    map['name'] = name;
+    map['login'] = login;
+    return map;
+ }
+ 
+ UserModel.fromMapObject(Map<String, dynamic> map) {
+    this.id = map['id'];
+    this.name = map['name'];
+    this.login = map['login'];
+ }
+ 
 }

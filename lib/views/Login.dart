@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gerenciamento_os_ntel/services/DataBaseHelper.dart';
 import 'package:gerenciamento_os_ntel/util/Util.dart';
 import 'package:gerenciamento_os_ntel/views/Home.dart';
 
@@ -20,9 +21,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    
-
-
+  
     return Scaffold(
       backgroundColor: MyColors.PRIMARY,
       body: SingleChildScrollView(
@@ -133,33 +132,44 @@ class _LoginState extends State<Login> {
   }
 
   _savedLogin(String value){
-    _login = value;
+    _login = value.trim();
   }
 
   _savedPass(String value){
-    _pass = value;
+    _pass = value.trim();
   }
 
   _subimit() async {
     if(_formKey.currentState.validate()){
       UserModel user = await UserModel.authentication(login: _login, password: _pass);
       if(user.name == null)
-        Scaffold
-          .of(_formKey.currentContext)
-          .showSnackBar(
-            SnackBar(
-              content: Text(
-                'Usuário ou senha incorretos',
-                style: TextStyle(
-                  color: MyColors.SECONDARY,
-                  fontWeight: FontWeight.bold
-                ),
-              ),
-              backgroundColor: MyColors.WRITE,
-            ),
-          );
-      else
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+        _showSnack("Usuário ou senha incorretos");
+      else{
+        try{
+          DatabaseHelper databaseHelper = DatabaseHelper();
+          databaseHelper.insertUser(user);
+          Auth.user = user;
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+        }catch(e){
+          _showSnack("Erro de acesso ao banco de dados, entre em contado com o desenvolvimento");
+        }
+      }
     }
+  }
+
+  _showSnack(String msg){
+    Scaffold.of(_formKey.currentContext)
+    .showSnackBar(
+      SnackBar(
+        content: Text(
+          msg,
+          style: TextStyle(
+            color: MyColors.SECONDARY,
+            fontWeight: FontWeight.bold
+          ),
+        ),
+        backgroundColor: MyColors.WRITE,
+      ),
+    );
   }
 }

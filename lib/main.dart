@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:gerenciamento_os_ntel/views/Login.dart';
+import 'package:gerenciamento_os_ntel/views/Splash.dart';
 
 void main() => runApp(MyApp());
 
+
+
 class MyApp extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -11,7 +14,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Login(),
+      home: Splash(),
     );
-  }
+
+  }  
+
 }
