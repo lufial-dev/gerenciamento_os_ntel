@@ -35,6 +35,8 @@ class _DetailsState extends State<Details> {
       ),
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
               margin: EdgeInsets.symmetric(vertical: 20),
@@ -143,7 +145,7 @@ class _DetailsState extends State<Details> {
   }
 
   Widget _getFAB() {
-    return widget.serviceModel.situation != "CONCLUÍDO" ? SpeedDial(
+    return widget.serviceModel.situation != "CONCLUÍDO" || widget.serviceModel.situation != "FEITO" ? SpeedDial(
       animatedIcon: AnimatedIcons.menu_close,
       animatedIconTheme: IconThemeData(size: 22),
       backgroundColor: MyColors.SECONDARY,

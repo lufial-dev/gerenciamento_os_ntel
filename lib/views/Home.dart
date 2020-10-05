@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gerenciamento_os_ntel/models/ServiceModel.dart';
+import 'package:gerenciamento_os_ntel/services/DataBaseHelper.dart';
 import 'package:gerenciamento_os_ntel/util/Util.dart';
 import 'package:gerenciamento_os_ntel/views/Details.dart';
+import 'package:gerenciamento_os_ntel/views/Login.dart';
 import 'package:gerenciamento_os_ntel/widgets/ServiceCard.dart';
 
 class Home extends StatefulWidget {
@@ -62,10 +64,14 @@ class _MyHome extends State<Home> {
           ),
           preferredSize: Size.fromHeight(4.0),
         ),
-        actions: <Widget>[Icon(Icons.search)],
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: _showExitDialog,
+          ),
+        ],
         title: Text("Ntel Telecom"),
       ),
-      drawer: Drawer(),
       body: RefreshIndicator(
         onRefresh: loadData,
         child: ListView.builder(
@@ -84,4 +90,34 @@ class _MyHome extends State<Home> {
       ),
     );
   }
+
+  _showExitDialog(){
+    showDialog(
+      context: context,
+      child:AlertDialog(
+        title: Text("Sair"),
+        content: Text("Tem certexa que deseja sair?"),
+        actions: [
+            FlatButton(
+              onPressed: _exit,
+              child: Text("Sim"),
+            ),
+
+            FlatButton(
+              onPressed: (){
+                Navigator.pop(context);
+              },
+              child: Text("Não"),
+            ),
+        ],
+      ),
+    );
+  }
+
+  _exit(){
+    DatabaseHelper db = DatabaseHelper();
+    db.deleteUser(Auth.user.id);
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Login()), (Route<dynamic> route) => false);
+  }
+
 }
