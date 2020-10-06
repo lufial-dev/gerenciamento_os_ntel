@@ -49,8 +49,10 @@ class ServiceModel {
     return allServices;
   }
 
-  void updateSituation(String situation){
+  String updateSituation(String situation){
+    String oldSituation = this.situation;
     this.situation = situation;
     Services.fetchArray("appos.php?id=${this.id}&situation=$situation");
+    return oldSituation;
   }
 }

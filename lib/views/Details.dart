@@ -10,6 +10,8 @@ import '../util/Util.dart';
 class Details extends StatefulWidget {
 
   final ServiceModel serviceModel;
+  GlobalKey keyForm = GlobalKey();
+  String oldSituation = "";
 
   Details(this.serviceModel);
   
@@ -34,118 +36,123 @@ class _DetailsState extends State<Details> {
         title: Text("Detalhes"),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 20),
-              child: TitleLine("Dados do Cliente"),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Nome: ",
-                    style: TextStyle(
-                      color: MyColors.TITLE,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 30, top: 5, bottom: 5),
-                    child: Text(widget.serviceModel.name),
-                  ),
-                  
-                  Text(
-                    "Endereço: ",
-                    style: TextStyle(
-                      color: MyColors.TITLE,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 30, top: 5,  bottom: 5),
-                    child: Text(widget.serviceModel.address),
-                  ),
-                  
-                  Text(
-                    "Telefone: ",
-                    style: TextStyle(
-                      color: MyColors.TITLE,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 30, top: 5,  bottom: 5),
-                    child: Text(widget.serviceModel.phone),
-                  ),
-                ],
-              ),
-            ),
-            
-               
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 20),
-              child: TitleLine("Dados da Os"),
-            ),
-        
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Tipo: ",
-                    style: TextStyle(
-                      color: MyColors.TITLE,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 30, top: 5, bottom: 5),
-                    child: Text(widget.serviceModel.service),
-                  ),
-                      
-                  Text(
-                    "Observação: ",
-                    style: TextStyle(
-                      color: MyColors.TITLE,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 30, top: 5, bottom: 5),
-                    child: Text(widget.serviceModel.observation),
-                  ),
-                    
+        child: Form(
+          key: widget.keyForm,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
               
-                  Text(
-                    "Situação: ",
-                    style: TextStyle(
-                      color: MyColors.TITLE,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 30, top: 5, bottom: 5),
-                    child: Text(widget.serviceModel.situation),
-                  ),
-                ],
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 20),
+                child: TitleLine("Dados do Cliente"),
               ),
-            ),
-          ],
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Nome: ",
+                      style: TextStyle(
+                        color: MyColors.TITLE,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                      child: Text(widget.serviceModel.name),
+                    ),
+                    
+                    Text(
+                      "Endereço: ",
+                      style: TextStyle(
+                        color: MyColors.TITLE,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 30, top: 5,  bottom: 5),
+                      child: Text(widget.serviceModel.address),
+                    ),
+                    
+                    Text(
+                      "Telefone: ",
+                      style: TextStyle(
+                        color: MyColors.TITLE,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 30, top: 5,  bottom: 5),
+                      child: Text(widget.serviceModel.phone),
+                    ),
+                  ],
+                ),
+              ),
+              
+                
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 20),
+                child: TitleLine("Dados da Os"),
+              ),
+          
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Tipo: ",
+                      style: TextStyle(
+                        color: MyColors.TITLE,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                      child: Text(widget.serviceModel.service),
+                    ),
+                        
+                    Text(
+                      "Observação: ",
+                      style: TextStyle(
+                        color: MyColors.TITLE,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                      child: Text(widget.serviceModel.observation),
+                    ),
+                      
+                
+                    Text(
+                      "Situação: ",
+                      style: TextStyle(
+                        color: MyColors.TITLE,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                      child: Text(widget.serviceModel.situation),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _getFAB() {
-    return widget.serviceModel.situation != "CONCLUÍDO" || widget.serviceModel.situation != "FEITO" ? SpeedDial(
+    print(widget.serviceModel.situation);
+    return (widget.serviceModel.situation != "CONCLUÍDO" && widget.serviceModel.situation != "FEITO") ? SpeedDial(
       animatedIcon: AnimatedIcons.menu_close,
       animatedIconTheme: IconThemeData(size: 22),
       backgroundColor: MyColors.SECONDARY,
@@ -157,7 +164,9 @@ class _DetailsState extends State<Details> {
             child: Icon(Icons.assignment_turned_in),
             backgroundColor: MyColors.SECONDARY,
             onTap: (){
-              widget.serviceModel.updateSituation("SEM CONTATO");
+              setState(() {
+                widget.serviceModel.updateSituation("SEM CONTATO");
+              });
             },
             label: 'SEM CONTATO',
             labelStyle: TextStyle(
@@ -170,7 +179,12 @@ class _DetailsState extends State<Details> {
             child: Icon(Icons.assignment_turned_in),
             backgroundColor: MyColors.PRIMARY,
             onTap:(){
-              widget.serviceModel.updateSituation("FEITO");
+              
+                setState(() {
+                  widget.oldSituation = widget.serviceModel.updateSituation("FEITO");
+                  _snackBar();
+                });
+              
             },
             label: 'FEITO',
             labelStyle: TextStyle(
@@ -180,6 +194,31 @@ class _DetailsState extends State<Details> {
             labelBackgroundColor: MyColors.PRIMARY)
       ],
     ):null;
+  }
+
+  _snackBar(){
+    Scaffold.of(widget.keyForm.currentContext).showSnackBar(
+      SnackBar(
+        elevation: 5,
+        backgroundColor: MyColors.WRITE,
+        action: SnackBarAction(
+          label: "Desfazer",
+          onPressed: (){
+            setState(() {
+              widget.serviceModel.updateSituation(widget.oldSituation);
+            });
+          },
+          textColor: MyColors.SECONDARY,
+        ),
+        content: Text(
+          "Você marcou esse serviço como FEITO",
+          style: TextStyle(
+            color: MyColors.PRIMARY,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
   }
 
 }
