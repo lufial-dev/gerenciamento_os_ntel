@@ -11,7 +11,6 @@ class ServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(service.situation);
     return Card(
       elevation: 5,
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),

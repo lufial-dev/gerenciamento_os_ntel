@@ -15,10 +15,10 @@ class UserModel{
 
   static Future<UserModel> authentication({String login, String password}) async {
     final response = await Services.fetchArray("apptec.php?login=$login&pass=$password");
-    List result = jsonDecode(response.body);
+    if(response == Messages.NOT_CONECTION)
+      return null;
 
-    print(result);
- 
+    List result = jsonDecode(response.body);
     UserModel user;
       
     user = UserModel.fromJson(result[0]);

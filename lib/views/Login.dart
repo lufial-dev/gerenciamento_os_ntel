@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gerenciamento_os_ntel/services/DataBaseHelper.dart';
+import 'package:gerenciamento_os_ntel/services/DataUserHelper.dart';
 import 'package:gerenciamento_os_ntel/util/Util.dart';
 import 'package:gerenciamento_os_ntel/views/Home.dart';
 
@@ -143,12 +143,15 @@ class _LoginState extends State<Login> {
   _subimit() async {
     if(_formKey.currentState.validate()){
       UserModel user = await UserModel.authentication(login: _login, password: _pass);
-      if(user.name == null)
-        _showSnack("Usuário ou senha incorretos");
+
+      if(user == null)
+        _showSnack(Messages.NOT_CONECTION);
+      else if(user.name == null)
+        _showSnack(Messages.USER_INCORRECT);
       else{
         try{
-          DatabaseHelper databaseHelper = DatabaseHelper();
-          databaseHelper.insertUser(user);
+          DataUserHelper datauserHelper = DataUserHelper();
+          datauserHelper.insertUser(user);
           Auth.user = user;
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
         }catch(e){

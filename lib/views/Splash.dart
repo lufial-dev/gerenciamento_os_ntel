@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gerenciamento_os_ntel/services/DataBaseHelper.dart';
+import 'package:gerenciamento_os_ntel/services/DataUserHelper.dart';
 import 'package:gerenciamento_os_ntel/views/Login.dart';
 
 import '../models/UserModel.dart';
@@ -28,8 +28,7 @@ class _SplashState extends State<Splash> {
   }
 
   _getUser() async {
-    DatabaseHelper db = DatabaseHelper();
-    db.inicializeDatabase();
+    DataUserHelper db = DataUserHelper();
     List<Map<String, dynamic>> userMap = await db.getUserMap();
 
     Future.delayed(Duration(seconds: 5)).then((_){

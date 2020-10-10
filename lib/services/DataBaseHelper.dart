@@ -1,73 +1,57 @@
 import 'dart:io';
 
+import 'package:gerenciamento_os_ntel/services/DataServiceHelper.dart';
+import 'package:gerenciamento_os_ntel/services/DataUserHelper.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../models/UserModel.dart';
-
-class DatabaseHelper {
+class  DatabaseHelper{
   static DatabaseHelper _databaseHelper;
-  static Database _database;
-
+  Database db;
   String databaseName = 'ntelgos';
-  String table = 'table_user';
-  String colId = 'id';
-  String colName = 'name';
-  String colLogin = 'login';
 
   DatabaseHelper._createInstance();
   factory DatabaseHelper() {
-    if (_databaseHelper == null) {
-        _databaseHelper = DatabaseHelper._createInstance();
-    }
-  
-  return _databaseHelper;
+      if (_databaseHelper == null) {
+          _databaseHelper = DatabaseHelper._createInstance();
+      }
+    return _databaseHelper;
   }
+
   Future<Database> get database async {
-    if (_database == null) {
-        _database = await inicializeDatabase();
+    if (this.db == null) {
+        this.db = await inicializeDatabase();
     }
   
-  return _database;
+    return this.db;
   }
+
   Future<Database> inicializeDatabase() async {
-    Directory diretorio = await getApplicationDocumentsDirectory();
-    String path = diretorio.path + databaseName;
+    Directory dir = await getApplicationDocumentsDirectory();
+    String path = dir.path + databaseName;
     
-    var bandoDeContatos = await openDatabase
-    (path, version: 1,  onCreate: _criaBanco);
-  return bandoDeContatos;
-  }
-  void _criaBanco(Database db, int versao) async {
-    await db.execute('CREATE TABLE $table('
-    '$colId INTEGER PRIMARY KEY AUTOINCREMENT,'
-    '$colName TEXT,'
-    '$colLogin TEXT);');
- 
+    var bd = await openDatabase
+    (path, version: 1,  onCreate: _newData);
+    return bd;
   }
 
-  Future<List<Map<String, dynamic>>> getUserMap() async {
-    Database db = await this.database;
-    var result = await db.rawQuery("SELECT * FROM $table");
-  return result;
-  }
+  void _newData(Database db, int version) async {
+    await db.execute('CREATE TABLE ${DataServiceHelper.table}('
+      '${DataServiceHelper.colId} INTEGER PRIMARY KEY AUTOINCREMENT,'
+      '${DataServiceHelper.colName} TEXT,'
+      '${DataServiceHelper.colAddress} TEXT,'
+      '${DataServiceHelper.colObservation} TEXT,'
+      '${DataServiceHelper.colPhone} TEXT,'
+      '${DataServiceHelper.colService} TEXT,'
+      '${DataServiceHelper.colTechnician} TEXT,'
+      '${DataServiceHelper.colSituation} TEXT,'
+      '${DataServiceHelper.colDate} TEXT'
+    ');');
 
-  Future<int> insertUser(UserModel user) async {
-    Database db = await this.database;
-    var result = await db.insert(table, user.toMap());
-  return result;
-  }
-
-  Future<int> updateUser(UserModel user,int id) async {
-    var db = await this.database;
-    var result = await db.rawUpdate("UPDATE $table SET $colName = '${user.name}', $colLogin = '${user.login}' WHERE $colId = '$id'");
-  return result;
-  }
-  
-  Future<int> deleteUser(int id) async {
-    var db = await this.database;
-    int result = await db.rawDelete('DELETE FROM $table WHERE $colId = $id');
-  return result;
+    await db.execute('CREATE TABLE ${DataUserHelper.table}('
+    '${DataUserHelper.colId} INTEGER PRIMARY KEY AUTOINCREMENT,'
+    '${DataUserHelper.colName} TEXT,'
+    '${DataUserHelper.colLogin} TEXT);');
   }
 
 }

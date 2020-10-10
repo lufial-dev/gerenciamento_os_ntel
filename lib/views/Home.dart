@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gerenciamento_os_ntel/models/ServiceModel.dart';
-import 'package:gerenciamento_os_ntel/services/DataBaseHelper.dart';
+import 'package:gerenciamento_os_ntel/services/DataServiceHelper.dart';
+import 'package:gerenciamento_os_ntel/services/DataUserHelper.dart';
 import 'package:gerenciamento_os_ntel/util/Util.dart';
 import 'package:gerenciamento_os_ntel/views/Details.dart';
 import 'package:gerenciamento_os_ntel/views/Login.dart';
@@ -18,6 +19,7 @@ class Home extends StatefulWidget {
 
 class _MyHome extends State<Home> {
   List<Widget> childrens = [];
+  DataServiceHelper db = DataServiceHelper();
 
   @override
   void initState() {
@@ -25,15 +27,19 @@ class _MyHome extends State<Home> {
     loadData();
   }
 
+  void _addItems(service){
+    db.insertService(service);
+    childrens.add(ServiceCard(service));
+  }
+
   Future<void> loadData() async {
     childrens = [];
-    try {
-      List services = await ServiceModel.all();
-      setState(() {
-        services.forEach((service) => childrens.add(ServiceCard(service)));
-      });
-    }catch (e){
-       setState(() {
+    List services = await ServiceModel.all();
+    setState(() {
+      if(services.isNotEmpty){
+        db.removeAll();
+        services.forEach((service) => _addItems(service));
+      }else 
         childrens.add(
           Container(
             margin: EdgeInsets.only(top: 30),
@@ -47,8 +53,8 @@ class _MyHome extends State<Home> {
             ),
           ),
         );
-       });
-    }
+      }
+    );
   }
  
 
@@ -81,7 +87,12 @@ class _MyHome extends State<Home> {
               onTap: () {
                 ServiceCard serviceCard = childrens[index];
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Details(serviceCard.service)));
+                    context, MaterialPageRoute(builder: (context) => 
+                    Details(serviceCard.service))).then((value) => 
+                      setState((){
+                        loadData();
+                      })
+                    );
               },
               child: childrens[index],
             );
@@ -96,7 +107,7 @@ class _MyHome extends State<Home> {
       context: context,
       child:AlertDialog(
         title: Text("Sair"),
-        content: Text("Tem certexa que deseja sair?"),
+        content: Text(Messages.EXIT),
         actions: [
             FlatButton(
               onPressed: _exit,
@@ -115,8 +126,11 @@ class _MyHome extends State<Home> {
   }
 
   _exit(){
-    DatabaseHelper db = DatabaseHelper();
-    db.deleteUser(Auth.user.id);
+    DataUserHelper dbu = DataUserHelper();
+    DataServiceHelper dbs = DataServiceHelper();
+
+    dbu.deleteUser(Auth.user.id);
+    dbs.removeAll();
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Login()), (Route<dynamic> route) => false);
   }
 

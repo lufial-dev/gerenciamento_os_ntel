@@ -7,6 +7,7 @@ import 'package:gerenciamento_os_ntel/widgets/TitleLine.dart';
 
 import '../util/Util.dart';
 
+// ignore: must_be_immutable
 class Details extends StatefulWidget {
 
   final ServiceModel serviceModel;
@@ -151,7 +152,6 @@ class _DetailsState extends State<Details> {
   }
 
   Widget _getFAB() {
-    print(widget.serviceModel.situation);
     return (widget.serviceModel.situation != "CONCLUÍDO" && widget.serviceModel.situation != "FEITO") ? SpeedDial(
       animatedIcon: AnimatedIcons.menu_close,
       animatedIconTheme: IconThemeData(size: 22),
@@ -163,10 +163,11 @@ class _DetailsState extends State<Details> {
             SpeedDialChild(
             child: Icon(Icons.assignment_turned_in),
             backgroundColor: MyColors.SECONDARY,
-            onTap: (){
-              setState(() {
-                widget.serviceModel.updateSituation("SEM CONTATO");
-              });
+            onTap: () async {
+                String result = await widget.serviceModel.updateSituation("SEM CONTATO");
+                if(result == Messages.NOT_CONECTION)
+                    _snackBar(result, 0);
+                setState((){});
             },
             label: 'SEM CONTATO',
             labelStyle: TextStyle(
@@ -178,13 +179,16 @@ class _DetailsState extends State<Details> {
             SpeedDialChild(
             child: Icon(Icons.assignment_turned_in),
             backgroundColor: MyColors.PRIMARY,
-            onTap:(){
-              
-                setState(() {
-                  widget.oldSituation = widget.serviceModel.updateSituation("FEITO");
-                  _snackBar();
-                });
-              
+            onTap:()async{
+                
+              String result = await widget.serviceModel.updateSituation("FEITO");
+              if(result == Messages.NOT_CONECTION)
+                _snackBar(result, 0);
+              else{
+                widget.oldSituation = result;
+                _snackBar("Você marcou esse serviço como FEITO", 1);
+              }  
+              setState(()  {});          
             },
             label: 'FEITO',
             labelStyle: TextStyle(
@@ -196,22 +200,24 @@ class _DetailsState extends State<Details> {
     ):null;
   }
 
-  _snackBar(){
+  _snackBar(String text, int type){
     Scaffold.of(widget.keyForm.currentContext).showSnackBar(
       SnackBar(
         elevation: 5,
         backgroundColor: MyColors.WRITE,
-        action: SnackBarAction(
+        action: type == 1 ? SnackBarAction(
           label: "Desfazer",
-          onPressed: (){
-            setState(() {
-              widget.serviceModel.updateSituation(widget.oldSituation);
-            });
+          onPressed: ()async{
+              String result = await widget.serviceModel.updateSituation(widget.oldSituation);
+              if(result == Messages.NOT_CONECTION)
+                  _snackBar(result, 0);
+              setState(() {});
+               
           },
           textColor: MyColors.SECONDARY,
-        ),
+        ) : null,
         content: Text(
-          "Você marcou esse serviço como FEITO",
+          text,
           style: TextStyle(
             color: MyColors.PRIMARY,
             fontWeight: FontWeight.bold,
@@ -220,5 +226,4 @@ class _DetailsState extends State<Details> {
       ),
     );
   }
-
 }
