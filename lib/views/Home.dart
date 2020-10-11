@@ -131,6 +131,7 @@ class _MyHome extends State<Home> {
 
     dbu.deleteUser(Auth.user.id);
     dbs.removeAll();
+
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Login()), (Route<dynamic> route) => false);
   }
 

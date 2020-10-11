@@ -15,7 +15,8 @@ class ServiceModel {
   String service;
   String situation;
   DateTime date;
-  String origin;
+  String priority;
+
 
   ServiceModel(
     {
@@ -28,6 +29,7 @@ class ServiceModel {
       this.service,
       this.situation,
       this.date,
+      this.priority,
     }
   );
 
@@ -41,6 +43,7 @@ class ServiceModel {
         service: json['service'],
         situation: json['situation'],
         date: DateTime.parse(json['date']),
+        priority: json['priority'],
       );
 
   static Future<List<ServiceModel>> all() async {
@@ -87,6 +90,7 @@ class ServiceModel {
     map['service'] = this.service;
     map['situation'] = this.situation;
     map['date'] = this.date.toString();
+    map['priority'] = this.priority;
     return map;
   }
  
@@ -100,6 +104,7 @@ class ServiceModel {
     this.service = map['service'];
     this.situation = map['situation'];
     this.date = DateTime.parse(map['date']);
+    this.priority = map['priority'];
   }
 
 }

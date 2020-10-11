@@ -16,6 +16,7 @@ class DataServiceHelper {
   static String colService = 'service';
   static String colSituation = 'situation';
   static String colDate = 'date';
+  static String colPriority = 'priority';
 
   DatabaseHelper database = DatabaseHelper();
 
@@ -25,7 +26,9 @@ class DataServiceHelper {
   Future<List<Map<String, dynamic>>> getServiceMap() async => 
     await database.inicializeDatabase().then((value) async{
       Database db = await database.database;
-      var result = await db.rawQuery("SELECT * FROM $table");
+      DateTime now = DateTime.now();
+      DateTime date = DateTime(now.year, now.month, now.day);
+      var result = await db.rawQuery("SELECT * FROM $table WHERE date BETWEEN '${date.toString()}' AND '${date.toString()}' ORDER BY priority ASC, id DESC");
       return result;
     });
 
@@ -46,7 +49,8 @@ class DataServiceHelper {
       "$colTechnician = '${service.technician}', "
       "$colService = '${service.service}', "
       "$colSituation = '${service.situation}', "
-      "$colDate = '${service.date.toString()}' "
+      "$colDate = '${service.date.toString()}', "
+      "$colPriority = '${service.priority}' "
       "WHERE $colId = '$id' ");
     return result;
   }

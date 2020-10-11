@@ -37,7 +37,7 @@ class  DatabaseHelper{
 
   void _newData(Database db, int version) async {
     await db.execute('CREATE TABLE ${DataServiceHelper.table}('
-      '${DataServiceHelper.colId} INTEGER PRIMARY KEY AUTOINCREMENT,'
+      '${DataServiceHelper.colId} INTEGER PRIMARY KEY,'
       '${DataServiceHelper.colName} TEXT,'
       '${DataServiceHelper.colAddress} TEXT,'
       '${DataServiceHelper.colObservation} TEXT,'
@@ -45,7 +45,8 @@ class  DatabaseHelper{
       '${DataServiceHelper.colService} TEXT,'
       '${DataServiceHelper.colTechnician} TEXT,'
       '${DataServiceHelper.colSituation} TEXT,'
-      '${DataServiceHelper.colDate} TEXT'
+      '${DataServiceHelper.colDate} TEXT,'
+      '${DataServiceHelper.colPriority} TEXT'
     ');');
 
     await db.execute('CREATE TABLE ${DataUserHelper.table}('
