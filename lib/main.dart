@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Ntel GOS',
       theme: ThemeData(
-        primarySwatch: MyColors.PRIMARY,
+        primaryColor: MyColors.PRIMARY,
       ),
       home: Splash(),
     );
