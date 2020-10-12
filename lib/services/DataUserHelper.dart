@@ -34,9 +34,9 @@ class DataUserHelper {
   return result;
   }
   
-  Future<int> deleteUser(int id) async {
+  Future<int> removeAll() async {
     var db = await database.database;
-    int result = await db.rawDelete('DELETE FROM $table WHERE $colId = $id');
+    int result = await db.rawDelete('DELETE FROM $table');
     return result;
   }
 

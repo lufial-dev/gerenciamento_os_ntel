@@ -150,7 +150,7 @@ class _MyHome extends State<Home> {
         )
       );
     }else{
-      dbu.deleteUser(Auth.user.id);
+      dbu.removeAll();
       dbs.removeAll();
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Login(widget._firebaseMessaging)), (Route<dynamic> route) => false);
     }
