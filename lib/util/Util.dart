@@ -90,6 +90,7 @@ abstract class MyIcons {
     static const String NOT_CONECTION = "Sem conexão com servidor";
     static const String EXIT =  "Tem certeza que deseja sair?";
     static const String USER_INCORRECT = "Usuário ou senha incorretos";
+    static const String USER_LOGED = "Usuário já logado em outro dispositivo";
    
 
   }

@@ -7,11 +7,12 @@ import 'package:gerenciamento_os_ntel/widgets/TitleLine.dart';
 
 import '../util/Util.dart';
 
+
 // ignore: must_be_immutable
 class Details extends StatefulWidget {
 
   final ServiceModel serviceModel;
-  GlobalKey keyForm = GlobalKey();
+  final GlobalKey keyForm = GlobalKey();
   String oldSituation = "";
 
   Details(this.serviceModel);

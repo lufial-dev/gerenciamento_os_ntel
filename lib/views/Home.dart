@@ -1,6 +1,8 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gerenciamento_os_ntel/models/ServiceModel.dart';
+import 'package:gerenciamento_os_ntel/models/UserModel.dart';
 import 'package:gerenciamento_os_ntel/services/DataServiceHelper.dart';
 import 'package:gerenciamento_os_ntel/services/DataUserHelper.dart';
 import 'package:gerenciamento_os_ntel/util/Util.dart';
@@ -9,9 +11,11 @@ import 'package:gerenciamento_os_ntel/views/Login.dart';
 import 'package:gerenciamento_os_ntel/widgets/ServiceCard.dart';
 
 class Home extends StatefulWidget {
-  Home({Key key, this.title}) : super(key: key);
+  final FirebaseMessaging _firebaseMessaging;
+  final GlobalKey keyForm = GlobalKey();
 
-  final String title;
+  Home(this._firebaseMessaging);
+  
 
   @override
   _MyHome createState() => _MyHome();
@@ -24,7 +28,12 @@ class _MyHome extends State<Home> {
   @override
   void initState() {
     super.initState();
-    loadData();
+    loadData();   
+    widget._firebaseMessaging.configure(
+      onMessage: (_) async {
+        loadData();
+      }
+    );
   }
 
   void _addItems(service){
@@ -78,25 +87,28 @@ class _MyHome extends State<Home> {
         ],
         title: Text("Ntel Telecom"),
       ),
-      body: RefreshIndicator(
-        onRefresh: loadData,
-        child: ListView.builder(
-          itemCount: childrens.length,
-          itemBuilder: (context, index) {
-            return InkWell(
-              onTap: () {
-                ServiceCard serviceCard = childrens[index];
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => 
-                    Details(serviceCard.service))).then((value) => 
-                      setState((){
-                        loadData();
-                      })
-                    );
-              },
-              child: childrens[index],
-            );
-          },
+      body: Form(
+        key: widget.keyForm,
+        child: RefreshIndicator(
+          onRefresh: loadData,
+          child: ListView.builder(
+            itemCount: childrens.length,
+            itemBuilder: (context, index) {
+              return InkWell(
+                onTap: () {
+                  ServiceCard serviceCard = childrens[index];
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => 
+                      Details(serviceCard.service))).then((value) => 
+                        setState((){
+                          loadData();
+                        })
+                      );
+                },
+                child: childrens[index],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -125,14 +137,24 @@ class _MyHome extends State<Home> {
     );
   }
 
-  _exit(){
+  _exit() async {
     DataUserHelper dbu = DataUserHelper();
     DataServiceHelper dbs = DataServiceHelper();
+    UserModel user = await Auth.user.logout();
+    if(user == null ){
+      Scaffold.of(widget.keyForm.currentContext).showSnackBar(
+        SnackBar(content: 
+          Text(
+            "Você não possui conexão"
+          ),
+        )
+      );
+    }else{
+      dbu.deleteUser(Auth.user.id);
+      dbs.removeAll();
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Login(widget._firebaseMessaging)), (Route<dynamic> route) => false);
+    }
 
-    dbu.deleteUser(Auth.user.id);
-    dbs.removeAll();
-
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Login()), (Route<dynamic> route) => false);
   }
 
 }

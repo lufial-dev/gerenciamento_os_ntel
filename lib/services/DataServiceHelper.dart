@@ -20,9 +20,6 @@ class DataServiceHelper {
 
   DatabaseHelper database = DatabaseHelper();
 
-
-  
-
   Future<List<Map<String, dynamic>>> getServiceMap() async => 
     await database.inicializeDatabase().then((value) async{
       Database db = await database.database;

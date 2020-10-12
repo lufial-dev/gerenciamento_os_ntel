@@ -6,15 +6,17 @@ class UserModel{
   int id;
   String name;
   String login;
+  int free;
 
-  UserModel({this.name, this.login});
+  UserModel({this.name, this.login, this.free});
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
     name : json['name'],
+    free: int.parse(json['free']),
   );
 
-  static Future<UserModel> authentication({String login, String password}) async {
-    final response = await Services.fetchArray("apptec.php?login=$login&pass=$password");
+  static Future<UserModel> authentication({String login, String password, String token}) async {
+    final response = await Services.fetchArray("apptec.php?login=$login&pass=$password&token=$token");
     if(response == Messages.NOT_CONECTION)
       return null;
 
@@ -29,6 +31,23 @@ class UserModel{
     return user;
 
   }
+
+  Future<UserModel> logout() async {
+    final response = await Services.fetchArray("appteclogout.php?login=$login");
+    if(response == Messages.NOT_CONECTION)
+      return null;
+
+    List result = jsonDecode(response.body);
+    UserModel user;
+      
+    user = UserModel.fromJson(result[0]);
+    user.login = login;
+
+    Auth.user = user;
+
+    return user;
+
+  }  
 
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();

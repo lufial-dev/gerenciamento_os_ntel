@@ -1,4 +1,4 @@
-package com.example.gerenciamento_os_ntel
+package com.lufialdev.nteltelecom_gos
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

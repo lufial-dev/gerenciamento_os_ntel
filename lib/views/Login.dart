@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gerenciamento_os_ntel/services/DataUserHelper.dart';
@@ -8,6 +9,11 @@ import '../models/UserModel.dart';
 import '../util/Util.dart';
 
 class Login extends StatefulWidget {
+
+  final FirebaseMessaging _firebaseMessaging;
+  
+  Login(this._firebaseMessaging);
+
   @override
   _LoginState createState() => _LoginState();
 }
@@ -141,11 +147,14 @@ class _LoginState extends State<Login> {
   }
 
   _subimit() async {
+    final token = await widget._firebaseMessaging.getToken();
     if(_formKey.currentState.validate()){
-      UserModel user = await UserModel.authentication(login: _login, password: _pass);
-
+      UserModel user = await UserModel.authentication(login: _login, password: _pass, token: token);
+      print(user.free);
       if(user == null)
         _showSnack(Messages.NOT_CONECTION);
+      else if(user.free == 0)
+        _showSnack(Messages.USER_LOGED);
       else if(user.name == null)
         _showSnack(Messages.USER_INCORRECT);
       else{
@@ -153,7 +162,7 @@ class _LoginState extends State<Login> {
           DataUserHelper datauserHelper = DataUserHelper();
           datauserHelper.insertUser(user);
           Auth.user = user;
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home(widget._firebaseMessaging)));
         }catch(e){
           _showSnack("Erro de acesso ao banco de dados, entre em contado com o desenvolvimento");
         }
