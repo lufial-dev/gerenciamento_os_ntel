@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gerenciamento_os_ntel/services/DataServiceHelper.dart';
 import 'package:gerenciamento_os_ntel/services/DataUserHelper.dart';
 import 'package:gerenciamento_os_ntel/views/Login.dart';
 
@@ -36,7 +37,7 @@ class _SplashState extends State<Splash> {
     DataUserHelper db = DataUserHelper();
     List<Map<String, dynamic>> userMap = await db.getUserMap();
 
-    Future.delayed(Duration(seconds: 5)).then((_){
+    Future.delayed(Duration(seconds: 5)).then((_) async {
       if(userMap[0].isNotEmpty){
         Auth.user = UserModel.fromMapObject(userMap[0]);
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(_firebaseMessaging)));

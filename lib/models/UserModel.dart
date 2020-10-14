@@ -21,15 +21,30 @@ class UserModel{
       return null;
 
     List result = jsonDecode(response.body);
-    UserModel user;
-      
-    user = UserModel.fromJson(result[0]);
-    user.login = login;
+
+    UserModel user = UserModel();
+    
+    if(result[0]['success']){
+      user = UserModel.fromJson(result[0]);
+      user.login = login;
+    }
 
     Auth.user = user;
 
     return user;
 
+  }
+
+  Future<bool> loged() async {
+    final response = await Services.fetchArray("apploged.php?login=$login");
+    if(response == Messages.NOT_CONECTION)
+      return null;
+
+    List result = jsonDecode(response.body);      
+    if(result[0]['free']==1)
+      return false;
+      
+    return true;
   }
 
   Future<UserModel> logout() async {

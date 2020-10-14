@@ -12,7 +12,7 @@ import '../util/Util.dart';
 class Details extends StatefulWidget {
 
   final ServiceModel serviceModel;
-  final GlobalKey keyForm = GlobalKey();
+  final GlobalKey keyForm =  GlobalKey<FormState>();
   String oldSituation = "";
 
   Details(this.serviceModel);
@@ -22,6 +22,9 @@ class Details extends StatefulWidget {
 }
 
 class _DetailsState extends State<Details> {
+
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,6 +69,17 @@ class _DetailsState extends State<Details> {
                       margin: EdgeInsets.only(left: 30, top: 5, bottom: 5),
                       child: Text(widget.serviceModel.name),
                     ),
+                    Text(
+                      "Código: ",
+                      style: TextStyle(
+                        color: MyColors.TITLE,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                      child: Text(widget.serviceModel.code),
+                    ),
                     
                     Text(
                       "Endereço: ",
@@ -90,6 +104,29 @@ class _DetailsState extends State<Details> {
                       margin: EdgeInsets.only(left: 30, top: 5,  bottom: 5),
                       child: Text(widget.serviceModel.phone),
                     ),
+
+                    Text(
+                      "PPPoE",
+                      style: TextStyle(
+                        color: MyColors.TITLE,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                      Container(
+                      margin: EdgeInsets.only(left: 30, top: 5,  bottom: 5),
+                      child: Text(widget.serviceModel.pppoe),
+                      ),
+                      Text(
+                      "Senha",
+                      style: TextStyle(
+                        color: MyColors.TITLE,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                      Container(
+                      margin: EdgeInsets.only(left: 30, top: 5,  bottom: 5),
+                      child: Text(widget.serviceModel.password),
+                      ),
                   ],
                 ),
               ),
@@ -165,7 +202,7 @@ class _DetailsState extends State<Details> {
             child: Icon(Icons.assignment_turned_in),
             backgroundColor: MyColors.SECONDARY,
             onTap: () async {
-                String result = await widget.serviceModel.updateSituation("SEM CONTATO");
+                String result = await widget.serviceModel.updateSituation(situation: "SEM CONTATO");
                 if(result == Messages.NOT_CONECTION)
                     _snackBar(result, 0);
                 setState((){});
@@ -181,16 +218,52 @@ class _DetailsState extends State<Details> {
             child: Icon(Icons.assignment_turned_in),
             backgroundColor: MyColors.PRIMARY,
             onTap:()async{
-                
-              String result = await widget.serviceModel.updateSituation("FEITO");
-              if(result == Messages.NOT_CONECTION)
-                _snackBar(result, 0);
-              else{
-                widget.oldSituation = result;
-                _snackBar("Você marcou esse serviço como FEITO", 1);
-              }  
-              setState(()  {});          
-            },
+              String description = "";
+              showDialog(
+                context: context,
+                child: AlertDialog(
+                  title: Center(child:Text("Descrição da OS")),
+                  content: Form(
+                    key: _formKey,
+                    child:TextFormField(
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      onChanged: (text)=>description=text,
+                      validator: _validateDescription,
+                    ),
+                  ),
+                  actions: [
+                    FlatButton(
+                      onPressed: () async {
+                        if(_formKey.currentState.validate()){
+                          String result = await widget.serviceModel.updateSituation(situation:"FEITO", description: description.trim());
+                          if(result == Messages.NOT_CONECTION){
+                            Navigator.pop(context);
+                            _snackBar(result, 0);
+                          }else{
+                            widget.oldSituation = result;
+                            Navigator.pop(context);
+                            _snackBar("OS finalizada com sucesso", 0);
+                          }  
+                          setState(()  {});   
+                        }
+                      },
+                      child: Text("Concluir"),),
+                      FlatButton(
+                        onPressed: (){
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "Cancelar",
+                          style: TextStyle(
+                            color: MyColors.SECONDARY
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );       
+              },
             label: 'FEITO',
             labelStyle: TextStyle(
                 fontWeight: FontWeight.w500,
@@ -201,6 +274,12 @@ class _DetailsState extends State<Details> {
     ):null;
   }
 
+  String _validateDescription(String text){
+    if(text.isEmpty)
+      return "Este campo é obrigatório";
+    return null;
+  }
+
   _snackBar(String text, int type){
     Scaffold.of(widget.keyForm.currentContext).showSnackBar(
       SnackBar(
@@ -209,7 +288,7 @@ class _DetailsState extends State<Details> {
         action: type == 1 ? SnackBarAction(
           label: "Desfazer",
           onPressed: ()async{
-              String result = await widget.serviceModel.updateSituation(widget.oldSituation);
+              String result = await widget.serviceModel.updateSituation(situation: widget.oldSituation);
               if(result == Messages.NOT_CONECTION)
                   _snackBar(result, 0);
               setState(() {});

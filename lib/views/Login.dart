@@ -150,7 +150,6 @@ class _LoginState extends State<Login> {
     final token = await widget._firebaseMessaging.getToken();
     if(_formKey.currentState.validate()){
       UserModel user = await UserModel.authentication(login: _login, password: _pass, token: token);
-      print(user.free);
       if(user == null)
         _showSnack(Messages.NOT_CONECTION);
       else if(user.free == 0)

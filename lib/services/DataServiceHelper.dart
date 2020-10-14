@@ -17,6 +17,9 @@ class DataServiceHelper {
   static String colSituation = 'situation';
   static String colDate = 'date';
   static String colPriority = 'priority';
+  static String colPppoe = 'pppoe';
+  static String colPassword = 'password';
+  static String colCode = 'code';
 
   DatabaseHelper database = DatabaseHelper();
 
@@ -47,7 +50,10 @@ class DataServiceHelper {
       "$colService = '${service.service}', "
       "$colSituation = '${service.situation}', "
       "$colDate = '${service.date.toString()}', "
-      "$colPriority = '${service.priority}' "
+      "$colPriority = '${service.priority}', "
+      "$colPppoe = '${service.pppoe}', "
+      "$colPassword = '${service.password}', " 
+      "$colCode = '${service.code}' "
       "WHERE $colId = '$id' ");
     return result;
   }

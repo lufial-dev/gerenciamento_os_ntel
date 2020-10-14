@@ -16,6 +16,9 @@ class ServiceModel {
   String situation;
   DateTime date;
   String priority;
+  String pppoe;
+  String password;
+  String code;
 
 
   ServiceModel(
@@ -30,6 +33,9 @@ class ServiceModel {
       this.situation,
       this.date,
       this.priority,
+      this.pppoe,
+      this.password,
+      this.code,
     }
   );
 
@@ -44,7 +50,11 @@ class ServiceModel {
         situation: json['situation'],
         date: DateTime.parse(json['date']),
         priority: json['priority'],
+        pppoe: json['pppoe'],
+        password: json['password'],
+        code: json['code'],
       );
+
 
   static Future<List<ServiceModel>> all() async {
     List<ServiceModel> allServices = [];
@@ -64,9 +74,9 @@ class ServiceModel {
     return allServices;
   }
 
-  Future<String> updateSituation(String situation) async {
+  Future<String> updateSituation({String situation, String description}) async {
     String oldSituation = this.situation;
-    final result = await Services.fetchArray("appos.php?id=${this.id}&situation=$situation");
+    final result = await Services.fetchArray("appos.php?id=${this.id}&situation=$situation&description=$description");
     if(result == Messages.NOT_CONECTION)
       return  result;
     else{
@@ -91,6 +101,9 @@ class ServiceModel {
     map['situation'] = this.situation;
     map['date'] = this.date.toString();
     map['priority'] = this.priority;
+    map['pppoe'] = this.pppoe;
+    map['password'] = this.password;
+    map['code'] = this.code;
     return map;
   }
  
@@ -105,6 +118,9 @@ class ServiceModel {
     this.situation = map['situation'];
     this.date = DateTime.parse(map['date']);
     this.priority = map['priority'];
+    this.pppoe = map['pppoe'];
+    this.password = map['password'];
+    this.code = map['code'];
   }
 
 }

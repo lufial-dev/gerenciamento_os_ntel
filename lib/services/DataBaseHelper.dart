@@ -46,7 +46,10 @@ class  DatabaseHelper{
       '${DataServiceHelper.colTechnician} TEXT,'
       '${DataServiceHelper.colSituation} TEXT,'
       '${DataServiceHelper.colDate} TEXT,'
-      '${DataServiceHelper.colPriority} TEXT'
+      '${DataServiceHelper.colPriority} TEXT,'
+      '${DataServiceHelper.colPppoe} TEXT,'
+      '${DataServiceHelper.colPassword} TEXT,'
+      '${DataServiceHelper.colCode} TEXT'
     ');');
 
     await db.execute('CREATE TABLE ${DataUserHelper.table}('
